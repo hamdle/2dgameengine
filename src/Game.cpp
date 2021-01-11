@@ -16,8 +16,8 @@ void Game::Initialize() {
     }
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0, &displayMode);
-    windowWidth = displayMode.w;
-    windowHeight = displayMode.h;
+    windowWidth = 1024; //displayMode.w;
+    windowHeight = 600; //displayMode.h;
     window = SDL_CreateWindow(
         "2D Game Engine",
         SDL_WINDOWPOS_CENTERED,
@@ -39,7 +39,12 @@ void Game::Initialize() {
     isRunning = true;
 }
 
+void Game::Setup() {
+    // TODO: Initialize game objects.
+}
+
 void Game::Run() {
+    Setup();
     while (isRunning) {
         ProcessInput();
         Update();
@@ -68,10 +73,17 @@ void Game::Update() {
 }
 
 void Game::Render() {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    // TODO: Render game objects here.
+    // Load PNG texture
+    SDL_Surface* surface = IMG_Load("./assets/images/skateboard_x4.png");
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+
+    SDL_Rect destRect = { 10, 10, 192, 192 };
+    SDL_RenderCopy(renderer, texture, NULL, &destRect);
+    SDL_DestroyTexture(texture);
 
     SDL_RenderPresent(renderer);
 }
