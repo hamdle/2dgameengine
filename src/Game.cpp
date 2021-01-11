@@ -11,6 +11,15 @@ Game::Game() {
 Game::~Game() {
 }
 
+glm::vec2 playerPosition;
+glm::vec2 playerVelocity;
+
+void Game::Setup() {
+    playerPosition = glm::vec2(-192.0, (600.0/2)-(192.0/2.0));
+    // Movement is in pixels per second
+    playerVelocity = glm::vec2(100.0, 0.0);
+}
+
 void Game::Initialize() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cerr << "Error initializing SDL." << std::endl;
@@ -40,14 +49,6 @@ void Game::Initialize() {
 
     cycle = 0;
     isRunning = true;
-}
-
-glm::vec2 playerPosition;
-glm::vec2 playerVelocity;
-
-void Game::Setup() {
-    playerPosition = glm::vec2(-192.0, (600.0/2)-(192.0/2.0));
-    playerVelocity = glm::vec2(3.0, 0.0);
 }
 
 void Game::Run() {
@@ -83,10 +84,14 @@ void Game::Update() {
         SDL_Delay(timeToWait);
     }
 
+    // Diff of ticks since last frame, converted to seconds
+    double deltaTime = (SDL_GetTicks() - millisecsPrevFrame) / 1000.0;
+
+    // Store "previous" frame time
     millisecsPrevFrame = SDL_GetTicks();
 
-    playerPosition.x += playerVelocity.x;
-    playerPosition.y += playerVelocity.y;
+    playerPosition.x += playerVelocity.x * deltaTime;
+    playerPosition.y += playerVelocity.y * deltaTime;
 
     if (playerPosition.x > 1024) {
         playerPosition.x = -192.0;
