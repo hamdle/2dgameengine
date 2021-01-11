@@ -38,6 +38,7 @@ void Game::Initialize() {
     }
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 
+    cycle = 0;
     isRunning = true;
 }
 
@@ -45,8 +46,8 @@ glm::vec2 playerPosition;
 glm::vec2 playerVelocity;
 
 void Game::Setup() {
-    playerPosition = glm::vec2(10.0, 20.0);
-    playerVelocity = glm::vec2(1.0, 0.0);
+    playerPosition = glm::vec2(-192.0, (600.0/2)-(192.0/2.0));
+    playerVelocity = glm::vec2(3.0, 0.0);
 }
 
 void Game::Run() {
@@ -56,6 +57,7 @@ void Game::Run() {
         Update();
         Render();
     }
+    std::cout << "Cycles run: " << cycle << std::endl;
 }
 
 void Game::ProcessInput() {
@@ -85,10 +87,19 @@ void Game::Update() {
 
     playerPosition.x += playerVelocity.x;
     playerPosition.y += playerVelocity.y;
+
+    if (playerPosition.x > 1024) {
+        playerPosition.x = -192.0;
+        cycle++;
+    }
 }
 
 void Game::Render() {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    if (cycle % 2) {
+        SDL_SetRenderDrawColor(renderer, 100, 149, 237, 255); // Cornflower blue
+    } else {
+        SDL_SetRenderDrawColor(renderer, 100, 92.9, 73.2, 255); // Wall color
+    }
     SDL_RenderClear(renderer);
 
     // Load PNG texture
