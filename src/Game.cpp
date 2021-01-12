@@ -1,8 +1,11 @@
 #include "Game.h"
+#include "Logger.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
 #include <iostream>
+#include <string>
 
 Game::Game() {
     isRunning = false;
@@ -22,7 +25,7 @@ void Game::Setup() {
 
 void Game::Initialize() {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        std::cerr << "Error initializing SDL." << std::endl;
+        Logger::Error("Error initializing SDL.");
         return;
     }
     SDL_DisplayMode displayMode;
@@ -38,12 +41,12 @@ void Game::Initialize() {
         SDL_WINDOW_BORDERLESS
     );
     if (!window) {
-        std::cerr << "Error creating SDL window." << std::endl;
+        Logger::Error("Error creating SDL window.");
         return;
     }
     renderer = SDL_CreateRenderer(window, -1, 0);
     if (!renderer) {
-        std::cerr << "Error creating SDL renderer." << std::endl;
+        Logger::Error("Error creating SDL renderer.");
     }
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
 
@@ -58,7 +61,7 @@ void Game::Run() {
         Update();
         Render();
     }
-    std::cout << "Cycles run: " << cycle << std::endl;
+    Logger::Log("Cycles run: " + cycle);
 }
 
 void Game::ProcessInput() {
