@@ -17,7 +17,7 @@ class Game {
     public:
         Game();
         ~Game();
-        void Initialize();
+        void Initialize(bool fullscreen);
         void Run();
         void Setup();
         void ProcessInput();

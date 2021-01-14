@@ -1,11 +1,16 @@
 #include "./Game/Game.h"
 
 int main(int argc, char* argv[]) {
-   Game game;
+    bool fullscreen = true;
+    if (argc == 2) {
+       fullscreen = false; 
+    }
 
-   game.Initialize();
-   game.Run();
-   game.Destroy();
-    
+    Game game;
+
+    game.Initialize(fullscreen);
+    game.Run();
+    game.Destroy();
+
     return 0;
 }

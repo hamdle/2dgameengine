@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_video.h>
 #include <glm/glm.hpp>
 #include <iostream>
 #include <string>
@@ -24,7 +25,7 @@ void Game::Setup() {
     playerVelocity = glm::vec2(100.0, 0.0);
 }
 
-void Game::Initialize() {
+void Game::Initialize(bool fullscreen) {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         Logger::Error("Error initializing SDL.");
         return;
@@ -39,7 +40,8 @@ void Game::Initialize() {
         SDL_WINDOWPOS_CENTERED,
         windowWidth,
         windowHeight,
-        SDL_WINDOW_BORDERLESS
+        //SDL_WINDOW_BORDERLESS
+        SDL_WINDOW_RESIZABLE
     );
     if (!window) {
         Logger::Error("Error creating SDL window.");
@@ -49,7 +51,9 @@ void Game::Initialize() {
     if (!renderer) {
         Logger::Error("Error creating SDL renderer.");
     }
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    if (fullscreen) {
+        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    }
 
     cycle = 0;
     isRunning = true;
