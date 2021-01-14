@@ -8,7 +8,7 @@
 #include <string>
 
 Game::Game() {
-    Logger::Log("Game object created.");
+    Logger::Info("Game object created.");
     isRunning = false;
 }
 
@@ -62,8 +62,7 @@ void Game::Run() {
         Update();
         Render();
     }
-    std::cout << "cycles run: " << cycle << std::endl;
-    Logger::Log("Cycles run: " + cycle);
+    Logger::Info("Cycles run: " + std::to_string(cycle));
 }
 
 void Game::ProcessInput() {

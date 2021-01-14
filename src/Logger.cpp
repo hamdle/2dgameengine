@@ -14,7 +14,7 @@ std::string CurrentDateTimeToString() {
     return output;
 }
 
-void Logger::Log(const std::string& message) {
+void Logger::Info(const std::string& message) {
     LogEntry logEntry;
     logEntry.type = LOG_INFO;
     logEntry.message = "LOG [" + CurrentDateTimeToString() + "]: " + message;
